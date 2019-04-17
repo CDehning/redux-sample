@@ -20,7 +20,7 @@ class CountdownTickActionCreator(
     override fun invoke(recursiveState: Observable<MainState>): Observable<MainAction> {
         return recursiveState.switchMap {
             if (it is MainState.Active) {
-                timer(1, TimeUnit.SECONDS, timerScheduler)
+                timer(100, TimeUnit.MILLISECONDS, timerScheduler)
                     .map { MainAction.Tick }
             } else {
                 empty()

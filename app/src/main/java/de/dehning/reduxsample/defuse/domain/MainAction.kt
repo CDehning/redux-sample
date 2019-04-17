@@ -6,11 +6,6 @@ package de.dehning.reduxsample.defuse.domain
 sealed class MainAction {
 
     /**
-     * The lock was solved.
-     */
-    object DigitLockSolved : MainAction()
-
-    /**
      * The given digit of the lock should be increased.
      */
     data class DigitLockIncrease(val digit: Int) : MainAction()

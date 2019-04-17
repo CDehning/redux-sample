@@ -8,8 +8,8 @@ import de.dehning.reduxsample.redux.Reducer
 class MainReducer : Reducer<MainState, MainAction> {
 
     override fun invoke(currentState: MainState, action: MainAction): MainState {
-        return when (action) {
-            MainAction.DigitLockSolved -> MainState.Defused
+        // Handle actions
+        val newState = when (action) {
             is MainAction.DigitLockIncrease -> when (currentState) {
                 is MainState.Active -> increaseWithWrap(currentState, action.digit)
                 else -> currentState
@@ -22,6 +22,19 @@ class MainReducer : Reducer<MainState, MainAction> {
             }
             MainAction.CountdownExpired -> MainState.Boom
         }
+
+        // Check state outcome and progress state
+        return defuseIfPossible(newState)
+    }
+
+    /**
+     * Check if the given state is the solution and defuse it.
+     */
+    private fun defuseIfPossible(state: MainState): MainState {
+        if (state is MainState.Active && state.digits == Config.SOLUTION) {
+            return MainState.Defused
+        }
+        return state
     }
 
     /**
